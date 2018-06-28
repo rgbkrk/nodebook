@@ -9,7 +9,19 @@ import {
 } from "@nteract/presentational-components";
 
 type CellID = string;
-type Cell = {};
+
+type CodeCell = {
+  type: "code",
+  source: string,
+  outputs: Array<any>
+};
+
+type MarkdownCell = {
+  type: "markdown",
+  source: string
+};
+
+type Cell = CodeCell | MarkdownCell;
 
 type AppState = {
   notebook: {
@@ -20,13 +32,13 @@ type AppState = {
   }
 };
 
-const initialProps = {
+const initialProps: AppState = {
   notebook: {
     cellList: ["b", "a"]
   },
   cells: {
-    b: {},
-    a: {}
+    b: { type: "markdown", source: "# hello" },
+    a: { type: "markdown", source: "woo" }
   }
 };
 
