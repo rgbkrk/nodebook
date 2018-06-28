@@ -76,7 +76,9 @@ class Notebook extends React.Component<*, AppState> {
                   <Source>
                     <Editor
                       theme="light"
-                      options={{}}
+                      options={{
+                        mode: "javascript"
+                      }}
                       channels={null}
                       completion={false}
                       editorFocused={false}
