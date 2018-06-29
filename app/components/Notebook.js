@@ -145,6 +145,14 @@ class Notebook extends React.Component<*, AppState> {
                 {cell.type === "markdown" ? null : (
                   <Outputs>
                     {cell.outputs.map(output => {
+                      // Cheap hack to check for react elements as the output so we can render as is
+                      if (
+                        output &&
+                        output.hasOwnProperty("$$typeof") &&
+                        output.$$typeof.toString() === "Symbol(react.element)"
+                      ) {
+                        return output;
+                      }
                       if (Array.isArray(output)) {
                         return (
                           <ul>
