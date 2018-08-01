@@ -11,8 +11,8 @@
     "react"
   ],
   "plugins": [
-    "add-module-exports",
     "styled-jsx/babel",
+    "add-module-exports",
     "transform-class-properties"
   ],
   "env": {

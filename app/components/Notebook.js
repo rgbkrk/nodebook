@@ -57,10 +57,36 @@ const initialState: AppState = {
     g: {
       type: "code",
       executeOrder: 2,
-      source: "console.log('hey')",
+      source: `
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    }
+  }
+
+  render() {
+    return React.createElement('button', {
+      style: {
+        fontSize: "3em",
+        width: "100%"
+      },
+      onClick: () => this.setState(state => {
+        return {
+          count: state.count + 1
+        }
+      })
+    }, this.state.count)
+  }
+}
+
+React.createElement(Counter)
+      `,
       outputs: [
         //1, 2,
-        Array.from(new Uint32Array(20)).map(x => ".")
+        // Array.from(new Uint32Array(20)).map(x => ".")
         // [3, 4, 325, 3252, 98, 125],
         // { a: 2, b: 3 }
       ]
@@ -145,12 +171,15 @@ class Notebook extends React.Component<*, AppState> {
                 {cell.type === "markdown" ? null : (
                   <Outputs>
                     {cell.outputs.map(output => {
+                      console.log(output);
+
                       // Cheap hack to check for react elements as the output so we can render as is
                       if (
                         output &&
                         output.hasOwnProperty("$$typeof") &&
                         output.$$typeof.toString() === "Symbol(react.element)"
                       ) {
+                        console.log("its react yo");
                         return output;
                       }
                       if (Array.isArray(output)) {

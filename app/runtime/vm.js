@@ -1,8 +1,8 @@
 // @flow
 
-import vm from 'vm';
-import React from 'react';
-import { transform, transformFromAst } from 'babel-core';
+import vm from "vm";
+import React from "react";
+import { transform, transformFromAst } from "babel-core";
 
 function asyncify(input: string): string {
   return `(
@@ -23,7 +23,7 @@ function getLastExpression(ast: Object): Object {
 function returnify(ast: Object): Object {
   const lastExpression = getLastExpression(ast);
   if (!lastExpression) return ast;
-  lastExpression.type = 'ReturnStatement';
+  lastExpression.type = "ReturnStatement";
   if (lastExpression.expression) {
     lastExpression.argument = lastExpression.expression;
     delete lastExpression.expression;
@@ -38,7 +38,7 @@ function babelify(input: string): string {
 }
 
 export default function evalWithContext(input: string): any {
-  const sandbox = { React };
+  const sandbox = { require: require, React, console };
   const context = vm.createContext(sandbox);
   const { code } = transform(input);
   babelify(asyncify(input));
